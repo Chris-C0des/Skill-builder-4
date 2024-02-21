@@ -12,7 +12,7 @@ public class Grok
     private static final int MAX_POWER_LEVEL = 100;
 
     // instance variables
-    private int powerLevel;
+    private int powerLevel = 1;
     private boolean isAlive;
 
     /*
@@ -20,7 +20,9 @@ public class Grok
      */
     public Grok()
     {
-        setPowerLevel(DEFAULT_POWER_LEVEL);
+        powerLevel = DEFAULT_POWER_LEVEL;
+        isAlive = true;
+        isDead();
     }
 
     /*
@@ -30,7 +32,16 @@ public class Grok
      */
     public Grok(int powerLevel)
     {
-        setPowerLevel(powerLevel);
+        if(powerLevel > MAX_POWER_LEVEL){
+            setPowerLevel(MAX_POWER_LEVEL);
+        }else{
+            setPowerLevel(powerLevel);
+        }
+        if(powerLevel > 0){
+            isAlive = true;
+
+        }else{isAlive = false;}
+
     }
 
     // accessor methods
@@ -44,10 +55,18 @@ public class Grok
         return powerLevel;
     }
 
+
     public boolean isDead()
     {
-        // TODO: replace this line with your code here
+        if( powerLevel <= 0){
+
+            return true;
+
+        }else{
+            return false;}
+
     }
+
 
     // mutator methods
 
@@ -55,9 +74,14 @@ public class Grok
      * Sets the power level of this Grok.
      * @param powerLevel the power value to set for this Grok.
      */
-    public void setPowerLevel(int powerLevel)
-    {
-        this.powerLevel = powerLevel;
+    public void setPowerLevel(int powerLevel){
+
+        if(isDead()){
+            this.powerLevel = 0;
+        } else {
+            this.powerLevel = powerLevel;}
+
+
     }
 
     /*
@@ -68,7 +92,14 @@ public class Grok
      */
     public void takePowerPill(PowerPill pill)
     {
-        setPowerLevel(powerLevel + pill.getPower());
+        if(isDead()) {
+         setPowerLevel(0);
+        }else if(powerLevel + pill.getPower() > MAX_POWER_LEVEL){
+            setPowerLevel(MAX_POWER_LEVEL);
+
+        }else{
+            setPowerLevel(powerLevel + pill.getPower());
+        }
     }
 
     /*
@@ -77,7 +108,10 @@ public class Grok
      */
     public void tookHit()
     {
-        setPowerLevel(powerLevel - 5);
+        if(powerLevel - 5 < 0){
+            powerLevel = 0;
+            isAlive = false;
+        }else{ setPowerLevel(powerLevel - 5);}
     }
 
     //================== Do Not Touch Code Below this line =============================
